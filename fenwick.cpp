@@ -57,16 +57,52 @@ struct fen{
 
 		return res;
 	}
+
+	LL mini(LL k){
+		//kth order statistic
+		LL running = 0, res = 0;
+		LL lg = 32 - __builtin_clz(mxn);
+
+		for(int i = lg; i>=0; i--){
+			if(res + (1LL << i) > mxn) continue;
+			if(running + tr[res + (1LL << i)] >= k) continue;
+			running += tr[res + (1LL << i)];
+			res += (1LL << i);
+		}
+
+		return res + 1;
+	}
 };
 
 void solve(){
 	LL n, q;
-	fen tr(100000);
+	cin >> n >> q;
+	fen tr(1000000);
 
-	FOR(i, 10){if(i % 2) tr.upd(i, 1);}
+	//te
+	FOR(i, n){
+		LL x; cin >> x;
+		tr.upd(x, 1);
+		//cout << x << "\n";
+	}
 
+	while(q--){
+		LL t1;
+		cin >> t1;
+		if(t1 > 0){
+			tr.upd(t1, 1);
+			continue;
+		}
 
-	cout << tr.maxi(2) << '\n';
+		t1 = -t1;
+		tr.upd(tr.mini(t1), -1);
+	}
+
+	LL ans = tr.mini(1);
+	if(ans > 1000000){
+		cout << 0 << "\n";
+		return;
+	} cout << ans << "\n";
 }
 
 int main(){
