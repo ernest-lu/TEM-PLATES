@@ -23,6 +23,7 @@ struct lzseg{
 	LL mxn;
  
 	lzseg(LL sz){
+		//Might not be 0
 		tr.assign(4*sz + 5, 0);
 		lzi.assign(4 * sz + 5, 0);
 		lza.assign(4*sz + 5, 0);
@@ -33,14 +34,14 @@ struct lzseg{
 	void psh(LL z, LL l, LL r){
 		LL sz = r - l + 1;
 		if(pis[z]){
-			tr[z] = sz * lza[z];
+			tr[z] = sz * lza[z]; //Change depending on operation
 			if(l != r){
 				pis[2*z] = 1; lza[2*z] = lza[z];
 				pis[2*z + 1] = 1; lza[2*z + 1] = lza[z];
 			}
 		}
 		else{
-			tr[z] += sz * lzi[z];
+			tr[z] += sz * lzi[z]; //Change depending on operation
 			if(l != r){
 				if(pis[2*z]) lza[2*z] += lzi[z];
 				else lzi[2*z] += lzi[z];
@@ -63,7 +64,7 @@ struct lzseg{
 		LL mid = (l + r) >> 1;
 		upa(2*z, l, mid, lb, rb, k);
 		upa(2*z + 1, mid+1, r, lb, rb, k);
-		tr[z] = tr[2*z] + tr[2*z + 1];
+		tr[z] = tr[2*z] + tr[2*z + 1]; //remember
 	}
  
 	void upi(LL z, LL l, LL r, LL lb, LL rb, LL k){
@@ -78,7 +79,7 @@ struct lzseg{
 		LL mid = (l + r) >> 1;
 		upi(2*z, l, mid, lb, rb, k);
 		upi(2*z + 1, mid+1, r, lb, rb, k);
-		tr[z] = tr[2*z] + tr[2*z + 1];
+		tr[z] = tr[2*z] + tr[2*z + 1]; //remember
 	}
 	
 	LL ge(LL z, LL l, LL r, LL lb, LL rb){
@@ -88,7 +89,7 @@ struct lzseg{
  
 		LL mid = (l + r) >> 1;
 		return ge(2*z, l, mid, lb, rb) + 
-		ge(2*z + 1, mid+1, r, lb, rb);
+		ge(2*z + 1, mid+1, r, lb, rb); //remember
 	}
  
 	void up_ass(LL l, LL r, LL k){upa(1, 1, mxn, l, r, k);}

@@ -18,55 +18,64 @@ template<typename A> ostream& operator<<(ostream &cout, vector<A> const &v) {cou
 //var 
 LL T;
 
-struct fen{
-	vector<LL> tr;
+struct twoFen{
+	//fast logn range update incremenet, range query sum
+	vector<LL> tr1, tr2;
 	LL mxn;
 
-	fen(LL sz){
+	twoFen(LL sz){
 		mxn = sz;
-		tr.assign(sz + 5, 0);
+		tr1.assign(sz + 5, 0);
+		tr2.assign(sz + 5, 0);
 	}
 
-	void upd(LL g, LL k){
+	void upd1(LL g, LL k){
 		for(; g <= mxn; g += g&-g)
-			tr[g] += k;
+			tr1[g] += k;
 	}
 
-	LL ge(LL g){
+	void upd2(LL g, LL k){
+		for(; g <= mxn; g += g&-g)
+			tr2[g] += k;
+	}
+
+	LL ge1(LL g){
 		LL res = 0;
 		for(; g; g -= g&-g)
-			res += tr[g];
+			res += tr1[g];
 		return res;
 	}
 
-	LL rng(LL l, LL r){return ge(r) - ge(l - 1);}
-
-	//maxi and mini only work with positive numbers
-	LL maxi(LL k){
-		//max i such that ge(i) <= k.
-		//log(n) vs log^2(n) binary search
-		LL running = 0, res = 0;
-		LL lg = 32 - __builtin_clz(mxn);
-
-		for(int i = lg; i>=0; i--){
-			if(res + (1LL << i) > mxn) continue;
-			if(running + tr[res + (1LL << i)] > k) continue;
-			running += tr[res + (1LL << i)];
-			res += (1LL << i);
-		}
-
+	LL ge2(LL g){
+		LL res = 0;
+		for(; g; g -= g&-g)
+			res += tr2[g];
 		return res;
 	}
+
+	LL upd(LL l, LL r, LL k){
+		upd1(l, k);
+		upd1(r + 1, -k);
+
+		upd2(l, -(l - 1) * k);
+		upd2(r + 1, (r) * k);
+	}
+
+	LL pfix(LL g){return g * ge1(g) + ge2(g);}
+	LL rng(LL l, LL r){return pfix(r) - pfix(l - 1);}
 };
 
 void solve(){
-	LL n, q;
-	fen tr(100000);
+	twoFen tr(10);
 
-	FOR(i, 10){if(i % 2) tr.upd(i, 1);}
+	tr.upd(1, 3, 5);
 
+	cout << tr.rng(1, 10) << '\n';
 
-	cout << tr.maxi(2) << '\n';
+	tr.upd(2, 10, 4);
+	//cout << tr.rng(1, 10) << '\n';
+	//cout << tr.rng(2, 9) << '\n';
+	
 }
 
 int main(){
