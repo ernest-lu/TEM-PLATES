@@ -30,6 +30,10 @@ struct lzseg{
 		pis.assign(4*sz + 5, 0);
 		mxn = sz;
 	}
+
+	LL join(LL t1, LL t2) {
+		return t1 + t2;
+	}
  
 	void psh(LL z, LL l, LL r){
 		LL sz = r - l + 1;
@@ -64,7 +68,7 @@ struct lzseg{
 		LL mid = (l + r) >> 1;
 		upa(2*z, l, mid, lb, rb, k);
 		upa(2*z + 1, mid+1, r, lb, rb, k);
-		tr[z] = tr[2*z] + tr[2*z + 1]; //remember
+		tr[z] = join(tr[2*z], tr[2*z + 1]); //remember
 	}
  
 	void upi(LL z, LL l, LL r, LL lb, LL rb, LL k){
@@ -79,7 +83,7 @@ struct lzseg{
 		LL mid = (l + r) >> 1;
 		upi(2*z, l, mid, lb, rb, k);
 		upi(2*z + 1, mid+1, r, lb, rb, k);
-		tr[z] = tr[2*z] + tr[2*z + 1]; //remember
+		tr[z] = join(tr[2*z], tr[2*z + 1]); //remember
 	}
 	
 	LL ge(LL z, LL l, LL r, LL lb, LL rb){
@@ -88,8 +92,8 @@ struct lzseg{
 		if(l >= lb && r <= rb) return tr[z];
  
 		LL mid = (l + r) >> 1;
-		return ge(2*z, l, mid, lb, rb) + 
-		ge(2*z + 1, mid+1, r, lb, rb); //remember
+		return join(ge(2*z, l, mid, lb, rb),
+		ge(2*z + 1, mid+1, r, lb, rb)); //remember
 	}
  
 	void up_ass(LL l, LL r, LL k){upa(1, 1, mxn, l, r, k);}
