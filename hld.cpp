@@ -19,6 +19,7 @@ template<typename A> ostream& operator<<(ostream &cout, vector<A> const &v) {cou
 //var 
 LL T;
 
+//benq
 template<class T, int SZ> struct LazySeg { 
 	//zero indexed
 	static_assert(__builtin_popcount(SZ) == 1); // SZ must be power of 2
