@@ -1,36 +1,36 @@
-struct fen{
+struct fen {
 	vector<LL> tr;
 	LL mxn;
 
-	fen(LL sz){
+	fen(LL sz) {
 		mxn = sz;
 		tr.assign(sz + 5, 0);
 	}
 
-	void upd(LL g, LL k){
-		for(; g <= mxn; g += g&-g)
+	void upd(LL g, LL k) {
+		for (; g <= mxn; g += g&-g)
 			tr[g] += k;
 	}
 
-	LL ge(LL g){
+	LL ge(LL g) {
 		LL res = 0;
-		for(; g; g -= g&-g)
+		for (; g; g -= g&-g)
 			res += tr[g];
 		return res;
 	}
 
-	LL rng(LL l, LL r){return ge(r) - ge(l - 1);}
+	LL rng(LL l, LL r) { return ge(r) - ge(l - 1); }
 
 	//maxi and mini only work with positive numbers
-	LL maxi(LL k){
+	LL maxi(LL k) {
 		//max i such that ge(i) <= k.
 		//log(n) vs log^2(n) binary search
 		LL running = 0, res = 0;
 		LL lg = 32 - __builtin_clz(mxn);
 
-		for(int i = lg; i>=0; i--){
-			if(res + (1LL << i) > mxn) continue;
-			if(running + tr[res + (1LL << i)] > k) continue;
+		for (int i = lg; i>=0; i--) {
+			if (res + (1LL << i) > mxn) continue;
+			if (running + tr[res + (1LL << i)] > k) continue;
 			running += tr[res + (1LL << i)];
 			res += (1LL << i);
 		}
@@ -38,14 +38,14 @@ struct fen{
 		return res;
 	}
 
-	LL mini(LL k){
+	LL mini(LL k) {
 		//kth order statistic
 		LL running = 0, res = 0;
 		LL lg = 32 - __builtin_clz(mxn);
 
-		for(int i = lg; i>=0; i--){
-			if(res + (1LL << i) > mxn) continue;
-			if(running + tr[res + (1LL << i)] >= k) continue;
+		for (int i = lg; i>=0; i--) {
+			if (res + (1LL << i) > mxn) continue;
+			if (running + tr[res + (1LL << i)] >= k) continue;
 			running += tr[res + (1LL << i)];
 			res += (1LL << i);
 		}

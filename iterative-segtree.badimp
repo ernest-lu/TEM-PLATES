@@ -1,23 +1,23 @@
 const LL INF = 1e18;
 
-struct seg{
+struct seg {
 	vector<LL> tr;
 	LL mxn;
 
-	seg(LL sz){
+	seg(LL sz) {
 		mxn = sz;
 		tr.assign(2 * sz + 5, INF);
 	}
 
-	void upd(LL g, LL k){
+	void upd(LL g, LL k) {
 		g--;
-		for(tr[g += mxn] = k; g > 1; g >>= 1)
+		for (tr[g += mxn] = k; g > 1; g >>= 1)
 			tr[g / 2] = min(tr[g], tr[g ^ 1]);
 	}
 
-	LL ge(LL l, LL r){
+	LL ge(LL l, LL r) {
 		l--; LL res = INF;
-		for(l += mxn, r += mxn; l < r; l >>= 1, r >>= 1){
+		for (l += mxn, r += mxn; l < r; l >>= 1, r >>= 1) {
 			if(l & 1) res = min(res, tr[l++]);
 			if(r & 1) res = min(res, tr[--r]);
 		} return res;
