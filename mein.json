@@ -27,6 +27,12 @@
             "id": "two-sat"
       },
       {
+            "id": "naive-optimization"
+      },
+      {
+            "id": "centroid-decomp-base"
+      },
+      {
             "id": "starter-code"
       }
 ]
