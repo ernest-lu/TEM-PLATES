@@ -7,5 +7,23 @@
       },
       {
             "id": "modular-integer"
+      },
+      {
+            "id": "suffix-array"
+      },
+      {
+            "id": "lazy-segtree"
+      },
+      {
+            "id": "heavy-light-decomp"
+      },
+      {
+            "id": "disjoint-set"
+      },
+      {
+            "id": "two-fen"
+      },
+      {
+            "id": "two-sat"
       }
 ]
