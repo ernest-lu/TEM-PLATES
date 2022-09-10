@@ -1,0 +1,6 @@
+{
+      "files.associations": {
+            "*.badimp": "cpp",
+            "iosfwd": "cpp"
+      }
+}
