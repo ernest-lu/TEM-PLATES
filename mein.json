@@ -15,6 +15,9 @@
             "id": "lazy-segtree"
       },
       {
+            "id": "persistent-segtree"
+      },
+      {
             "id": "heavy-light-decomp"
       },
       {

@@ -1,0 +1,59 @@
+template<class T>
+struct node {
+	node* l;
+	node* r;
+	T val;
+ 
+	node(T val) : l(nullptr), r(nullptr), val(val) {}
+	node(node* l, node* r) : l(l), r(r), val(0) {
+		if (l) val += l->val;
+		if (r) val += r->val;
+	}
+};
+ 
+template<class T>
+struct sex {
+ 
+	LL nVal = 0;
+ 
+	node<T>* build(vector<T>& a, int zl, int zr) {
+		if (zl == zr) return new node<T>(a[zl]);
+		int m = (zl + zr) >> 1;
+		return new node<T>(build(a, zl, m), build(a, m + 1, zr));
+	} 
+ 
+	node<T>* build(vector<T>& a) {
+		this->nVal = (int)a.size();
+		return build(a, 0, (int)a.size() - 1);
+	}
+ 
+	node<T>* build(int n) {
+		this->nVal = n;
+		vector<T> res(n, 0);
+		return build(res, 0, n - 1);
+	}
+ 
+	node<T>* upd(node<T>* c, int zl, int zr, int pos, T new_val) {
+		if (zl == zr) 
+			return new node<T>(new_val);
+		int m = (zl + zr) >> 1;
+		if (pos <= m)
+			return new node<T>(upd(c->l, zl, m, pos, new_val), c->r);
+		else  
+			return new node<T>(c->l, upd(c->r, m + 1, zr, pos, new_val));
+	}
+ 
+	T query(node<T>* c, int zl, int zr, int l, int r) {
+		if (c == nullptr || l > r) 
+			return T(0);
+ 
+		if (l <= zl && zr <= r) 
+			return c->val;
+ 
+		int m = (zl + zr) >> 1;
+		T ret = query(c->l, zl, m, l, min(r, m)) + 
+				query(c->r, m + 1, zr, max(l, m + 1), r);
+ 
+		return ret;
+	};
+};
