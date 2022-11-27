@@ -1,12 +1,22 @@
 #include<bits/stdc++.h>
 using namespace std;
-typedef long long LL;
-typedef long double LD;
-typedef pair<LL,LL> pii;
-typedef pair<LL,pii> ppi;
-typedef pair<pii,pii> ppp;
+
+void dbg_out() { cout << endl; }
+template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cout << ' ' << H; dbg_out(T...); }
+
+#ifdef LOCAL
+#define debug(...) cout << "(" << #__VA_ARGS__ << "):", dbg_out(__VA_ARGS__)
+#else
+#define debug(...) "BRUHINT"
+#endif
+
+using LL = long long;
+using LD = long double;
+using pii = pair<LL,LL>;
+
 #define FOR(i, n) for(int i = 1; i<=n; i++)
 #define F0R(i, n) for(int i = 0; i<n; i++)
+#define all(x) x.begin(), x.end()
 #define mp make_pair
 #define pb push_back
 #define f first
@@ -18,11 +28,11 @@ template<typename A> ostream& operator<<(ostream &cout, vector<A> const &v) {cou
 //var 
 LL T;
 
-void solve(){
+void solve() {
 	
 }
 
-int main(){
+int main() {
 	ios_base::sync_with_stdio(0); 
 	cin.tie(0);
 
@@ -34,4 +44,5 @@ int main(){
 	cout.flush();
 	return 0;
 }
+
 
