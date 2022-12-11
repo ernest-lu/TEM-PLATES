@@ -55,5 +55,8 @@
       },
       {
 			"id": "segtree-recusrive"
-	  }
+      },
+      {
+	      "id": "LCA"
+      }
 ]
