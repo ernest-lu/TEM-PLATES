@@ -54,12 +54,15 @@
             "id": "random"
       },
       {
-			"id": "segtree-recusrive"
+		"id": "segtree-recusrive"
       },
       {
 	      "id": "LCA"
       },
       {
             "id": "RMQ"
+      },
+      {
+            "id": "crazy-optimization"
       }
 ]
