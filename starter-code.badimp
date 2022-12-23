@@ -22,8 +22,18 @@ using pii = pair<LL,LL>;
 #define f first
 #define s second
 
+template<typename T, typename = void> struct is_iterable : false_type {};
+template<typename T> struct is_iterable<T, void_t<decltype(begin(declval<T>())),decltype(end(declval<T>()))>> : true_type {};
+template<typename T> typename enable_if<is_iterable<T>::value&&!is_same<T, string>::value,ostream&>::type operator<<(ostream &cout, T const &v);
 template<typename A, typename B> ostream& operator<<(ostream &cout, pair<A, B> const &p) { return cout << "(" << p.f << ", " << p.s << ")"; }
-template<typename A> ostream& operator<<(ostream &cout, vector<A> const &v) {cout << "["; F0R(i, v.size()) {if (i) cout << ", "; cout << v[i];} return cout << "]";}
+template<typename T> typename enable_if<is_iterable<T>::value&&!is_same<T, string>::value,ostream&>::type operator<<(ostream &cout, T const &v) {
+	cout << "["; 
+	for (auto it = v.begin(); it != v.end();) {
+		cout << *it;
+		if (++it != v.end()) cout << ", ";
+	}
+	return cout << "]";
+}
 
 //var 
 LL T;
