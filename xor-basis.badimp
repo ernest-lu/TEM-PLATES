@@ -1,0 +1,32 @@
+struct XOR_Basis {
+	vector<LL> basis;
+	int D, SZ = 0;
+
+	XOR_Basis(int D) : basis(D, 0LL), D(D), SZ(0) {}
+
+	bool add_elem(LL x) {
+		for (int i = D - 1; i >= 0; i--) if ((x >> i) & 1LL) {
+			if (basis[i]) {
+				//Row Reduction
+				x ^= basis[i];
+			} else {
+				basis[i] = x;
+				SZ++;
+				return true;
+			}
+		}
+		return false;
+	}
+
+	LL kth(LL k) {
+		//zero indexed k = [0 ... 2^sz - 1]
+		LL ans = 0, curb = SZ - 1;
+		for (int i = D - 1; i >= 0; i--) if (basis[i]) {
+			if (((ans >> i) & 1LL) == (((k >> curb) & 1LL) ^ 1)) {
+				ans ^= basis[i];
+			}
+			curb--;
+		}
+		return ans;
+	}
+};

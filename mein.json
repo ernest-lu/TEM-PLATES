@@ -64,5 +64,8 @@
       },
       {
             "id": "crazy-optimization"
+      },
+      {
+            "id": "xor-basis"
       }
 ]
