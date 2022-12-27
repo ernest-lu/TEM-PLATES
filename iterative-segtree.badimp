@@ -1,25 +1,29 @@
-const LL INF = 1e18;
-
+template<typename T, typename Merge = plus<T>>
 struct seg {
-	vector<LL> tr;
-	LL mxn;
-
-	seg(LL sz) {
-		mxn = sz;
-		tr.assign(2 * sz + 5, INF);
+	vector<T> tree;
+	int n;
+	Merge merge;
+ 
+	seg(int n) : n(n), tree(2*n, INF), merge(Merge()) {}
+ 
+	seg(vector<T> a) : seg((int)a.size()) {
+		for (int i = n; i < 2 * n; i++)
+			tree[i] = a[i - n];
+		for (int i = n - 1; i >= 1; i--)
+			tree[i] = merge(tree[2 * i], tree[(2 * i) ^ 1]);
+	};
+ 
+	void upd(int g, T k) {
+		for (tree[g += n] = k; g > 1; g >>= 1)
+			tree[g / 2] = merge(tree[g], tree[g ^ 1]);
 	}
-
-	void upd(LL g, LL k) {
-		g--;
-		for (tr[g += mxn] = k; g > 1; g >>= 1)
-			tr[g / 2] = min(tr[g], tr[g ^ 1]);
-	}
-
-	LL ge(LL l, LL r) {
-		l--; LL res = INF;
-		for (l += mxn, r += mxn; l < r; l >>= 1, r >>= 1) {
-			if(l & 1) res = min(res, tr[l++]);
-			if(r & 1) res = min(res, tr[--r]);
+ 
+	T get(int l, int r) {
+		r++;
+		T res = T(INF);
+		for (l += n, r += n; l < r; l >>= 1, r >>= 1) {
+			if(l & 1) res = merge(res, tree[l++]);
+			if(r & 1) res = merge(res, tree[--r]);
 		} return res;
 	}
 };
