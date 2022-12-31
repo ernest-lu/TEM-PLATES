@@ -67,5 +67,8 @@
       },
       {
             "id": "xor-basis"
+      },
+      {
+            "id": "memory-optimized-persistent-segtree"
       }
 ]
