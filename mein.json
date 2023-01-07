@@ -70,5 +70,8 @@
       },
       {
             "id": "memory-optimized-persistent-segtree"
+      },
+      {
+            "id": "lazy-seggy"
       }
 ]
