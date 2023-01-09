@@ -76,5 +76,8 @@
       },
       {
             "id": "max-flow"
+      },
+      {
+            "id": "neal-hash"
       }
 ]
