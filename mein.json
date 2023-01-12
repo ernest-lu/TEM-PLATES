@@ -79,5 +79,8 @@
       },
       {
             "id": "neal-hash"
+      },
+      {
+            "id": "order-statistic-tree"
       }
 ]
