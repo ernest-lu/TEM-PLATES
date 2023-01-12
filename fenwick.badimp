@@ -1,5 +1,6 @@
+template<typename T>
 struct fen {
-	vector<LL> tr;
+	vector<T> tr;
 	LL mxn;
 
 	fen(LL sz) {
@@ -7,25 +8,26 @@ struct fen {
 		tr.assign(sz + 5, 0);
 	}
 
-	void upd(LL g, LL k) {
+	void upd(LL g, T k) {
+		assert(g != 0);
 		for (; g <= mxn; g += g&-g)
 			tr[g] += k;
 	}
 
-	LL ge(LL g) {
-		LL res = 0;
+	T ge(LL g) {
+		T res = 0;
 		for (; g; g -= g&-g)
 			res += tr[g];
 		return res;
 	}
 
-	LL rng(LL l, LL r) { return ge(r) - ge(l - 1); }
+	T rng(LL l, LL r) { return ge(r) - ge(l - 1); }
 
 	//maxi and mini only work with positive numbers
-	LL maxi(LL k) {
+	LL maxi(T k) {
 		//max i such that ge(i) <= k.
 		//log(n) vs log^2(n) binary search
-		LL running = 0, res = 0;
+		T running = 0; LL res = 0;
 		LL lg = 32 - __builtin_clz(mxn);
 
 		for (int i = lg; i>=0; i--) {
@@ -38,9 +40,9 @@ struct fen {
 		return res;
 	}
 
-	LL mini(LL k) {
+	LL mini(T k) {
 		//kth order statistic
-		LL running = 0, res = 0;
+		T running = 0; LL res = 0;
 		LL lg = 32 - __builtin_clz(mxn);
 
 		for (int i = lg; i>=0; i--) {
