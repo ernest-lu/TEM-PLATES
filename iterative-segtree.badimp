@@ -1,23 +1,24 @@
 template<typename T, typename Merge = plus<T>>
 struct seg {
+	//what
 	vector<T> tree;
 	int n;
 	Merge merge;
- 
+
 	seg(int n) : n(n), tree(2*n, INF), merge(Merge()) {}
- 
+
 	seg(vector<T> a) : seg((int)a.size()) {
 		for (int i = n; i < 2 * n; i++)
 			tree[i] = a[i - n];
 		for (int i = n - 1; i >= 1; i--)
 			tree[i] = merge(tree[2 * i], tree[(2 * i) ^ 1]);
 	};
- 
+
 	void upd(int g, T k) {
 		for (tree[g += n] = k; g > 1; g >>= 1)
 			tree[g / 2] = merge(tree[g], tree[g ^ 1]);
 	}
- 
+
 	T get(int l, int r) {
 		r++;
 		T res = T(INF);
