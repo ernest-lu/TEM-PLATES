@@ -82,5 +82,8 @@
       },
       {
             "id": "order-statistic-tree"
+      },
+      {
+            "id": "lazy-sparse"
       }
 ]

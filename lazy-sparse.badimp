@@ -1,0 +1,86 @@
+template<typename T, typename Merge = plus<T>, typename LazyOp=int>
+struct lazy_seg {
+
+	static const int LIM = 8e6;
+	struct Node {
+		T dat;
+		array<int, 2> c = {-1,-1};
+		LazyOp lazy;
+		bool tag;
+	};
+
+	Node a[LIM];
+	int n;
+	Merge merge;
+	int nxt = 0;
+
+	lazy_seg(LL n) : n(n), merge(Merge()), nxt(0) {
+		debug(n);
+		int c = this->nxt++;
+		a[c].dat = T(0);
+		a[c].tag = false;
+	}
+
+	void create_children(int z) {
+		if (a[z].c[0] == -1) {
+			a[z].c[0] = nxt++;
+			a[z].c[1] = nxt++;
+		}
+	}
+	
+	void pull(const int& z) {
+		create_children(z);
+		a[z].dat = a[a[z].c[0]].dat + a[a[z].c[1]].dat;
+	};
+	
+	void push(const int& z, const int& l, const int& r) {
+		if (a[z].tag) {
+			a[z].dat.apply(a[z].lazy, l, r);
+			debug(z, a[z].dat.mx, a[z].dat.delta);
+			if (l < r) {
+				create_children(z);
+				F0R (i, 2) {				
+					int nz = a[z].c[i];
+					a[nz].lazy = a[z].lazy;
+					a[nz].tag = true;
+				}
+			}
+		}
+		a[z].tag = false;
+		a[z].lazy = LazyOp(0);
+	}
+	
+	void up_inc(int z, int l, int r, int ql, int qr, const LazyOp& val) {
+		push(z, l, r);
+        if (ql > qr) return;     		
+		if (ql == l && qr == r) {
+			a[z].lazy = val;
+			a[z].tag = true;
+			push(z, l, r); 
+			return;
+		} 
+
+		//create_children(z);
+		int m = (l + r) >> 1;
+		up_inc(a[z].c[0], l, m, ql, min(qr, m), val);
+		up_inc(a[z].c[1], m + 1, r, max(ql, m + 1), qr, val);
+		pull(z);
+	};
+
+	T query(int z, int l, int r, int ql, int qr) {
+		push(z, l, r);
+        if (ql > qr) return T(0);
+		if (ql == l && qr == r) {
+			return a[z].dat;
+		}
+		int m = (l + r) >> 1;
+		//create_children(z);
+		return merge(
+			query(a[z].c[0], l, m, ql, min(qr, m)),
+			query(a[z].c[1], m + 1, r, max(ql, m + 1), qr)
+		);
+	};
+	
+	void up_inc(int l, int r, const LazyOp& val) { return up_inc(0, 0, n - 1, l, r, val); }
+	T query(int l, int r) { return query(0, 0, n - 1, l, r); }
+};
