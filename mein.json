@@ -88,5 +88,8 @@
       },
       {
             "id": "SCC"
+      },
+      {
+            "id": "binary-trie"
       }
 ]

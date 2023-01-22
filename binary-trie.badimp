@@ -1,0 +1,57 @@
+template<int ALPHABET = 2, int B = 32> 
+struct binary_trie {
+	struct Node {
+		int val = 0;
+		array<int, ALPHABET> c;
+	};	
+	const static int LIM = 1.5e7;
+ 
+	Node a[LIM];
+	int nxt = 0;
+ 
+	int get_or_create_child(int z, int val) {
+		int c = a[z].c[val];
+		if (c == -1) {
+			c = nxt++;
+			a[z].c[val] = c;
+			a[c].val = val;
+			F0R (i, ALPHABET) a[c].c[i] = -1;
+		}
+		return c;
+	};
+ 
+	int create_root() {
+		int c = nxt++;
+		a[c].val = 0;
+		F0R (i, ALPHABET) a[c].c[i] = -1;
+		return c;
+	}
+ 
+	void insert_word(int z, LL word) {
+		int cur = z;
+		for (int b = B - 1; b >= 0; b--) 
+			cur = get_or_create_child(cur, (word >> b) & 1);	
+	}
+ 
+	LL max_xor(int z, LL comp) {
+		int cur = z;
+		LL ret = 0;
+		for (int b = B - 1; b >= 0; b--) {
+			int l = a[cur].c[0], r = a[cur].c[1];
+			LL h = (1LL << b), has = (comp >> b) & 1;
+			if (l == -1) {
+				ret |= (has ? 0 : h);
+				cur = r;
+			} else if (r == -1) {
+				ret |= (has ? h : 0);
+				cur = l;
+			} else {
+				ret |= h;
+				cur = (has ? l : r);
+			}
+		}
+		return ret;
+	}
+};
+ 
+binary_trie trie;
