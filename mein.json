@@ -91,5 +91,8 @@
       },
       {
             "id": "binary-trie"
+      },
+      {
+            "id": "basic-implicit-treap"
       }
 ]
