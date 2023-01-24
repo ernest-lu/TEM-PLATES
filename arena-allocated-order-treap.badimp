@@ -1,0 +1,94 @@
+
+struct Node {
+	int val;
+	int weight, size;
+	array<int, 2> c;
+//	Node(int c) : val(c), weight(rand()), size(1), c({-1,-1}) {}
+};
+
+const int LIM = 1e6 + 69;
+int nxt = 0;
+Node x[LIM];
+
+int create_node(int c) {
+	int p = nxt++;
+	x[p].val = c;
+	x[p].weight = rand();
+	x[p].size = 1;
+	x[p].c = {-1,-1};
+	return p;
+}
+
+int size(int treap) {
+	return (treap!=-1 ? x[treap].size : 0);
+}
+
+int value(int treap) {
+	return (treap!=-1 ? x[treap].val : 0);
+}
+ 
+void split(int treap, int &left, int &right, int val) {
+ 
+	if (treap == -1) {
+		left = -1;
+		right = -1;
+		return;
+	}
+
+	int &tl = x[treap].c[0], &tr = x[treap].c[1], &ts = x[treap].size;
+ 
+	if (value(treap) <= val) {
+		split(tr, tr, right, val);
+		left = treap;
+ 
+	} else {
+		split(tl, left, tl, val);
+		right = treap;
+ 
+	}
+	ts = 1 + size(tl) + size(tr);
+}
+ 
+ 
+void merge(int &treap, int left, int right) {
+	if (left == -1) {
+		treap = right;
+		return;
+	}
+ 
+	if (right == -1) {
+		treap = left;
+		return;
+	}
+
+	if (x[left].weight < x[right].weight) {
+		merge(x[left].c[1], x[left].c[1], right);
+		treap = left;
+	} else {
+		merge(x[right].c[0], left, x[right].c[0]);
+		treap = right;
+	}
+ 
+	x[treap].size = 1 + size(x[treap].c[0]) + size(x[treap].c[1]);
+}
+
+int order(int treap, int q) {
+	//how many <= q
+	if (treap == -1) return 0;
+
+	if (value(treap) <= q) {
+		return order(x[treap].c[1], q) + 1 + size(x[treap].c[0]);
+	} else {
+		return order(x[treap].c[0], q);
+	}
+}
+
+vector<int> read(int treap) {
+	if (treap == -1) return vector<int>{};
+	vector<int> ret = read(x[treap].c[0]);
+	ret.emplace_back(x[treap].val);
+	vector<int> r2 = read(x[treap].c[1]);
+	for (auto& u : r2) ret.emplace_back(u);
+	r2.clear();
+	return ret;
+}

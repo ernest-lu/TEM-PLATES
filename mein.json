@@ -94,5 +94,11 @@
       },
       {
             "id": "basic-implicit-treap"
+      },
+      {
+            "id": "range-sum-reverse-treap"
+      },
+      {
+            "id": "arena-allocated-order-treap"
       }
 ]
