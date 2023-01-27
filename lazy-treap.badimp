@@ -1,0 +1,88 @@
+template<typename T, typename LazyOp=int>
+struct Treap {
+    using Node = Node<T,LazyOp>;
+
+    static int size(Node *treap) {
+        return treap ? treap->size : 0;
+    }
+
+    static int val(Node* treap) {
+        return treap ? treap->val : 0LL;
+    }
+
+    static T seg(Node* treap) {
+        return treap ? treap->seg : T{};
+    }
+
+    static void apply(Node* treap, const LazyOp& lazy) {
+        //TODO: fill out
+    }
+
+    static void push(Node* treap) {
+        if (treap == NULL) return;
+        apply(treap, treap->lazy);
+        if (treap->left)
+            treap->left->lazy += treap->lazy;
+        if (treap->right)
+            treap->right->lazy += treap->lazy;
+
+        treap->lazy = LazyOp{};
+    }
+
+    static void pull(Node* treap) {
+        if (treap == nullptr) return;
+
+        //MUST DO THIS:
+        if (treap->left) push(treap->left);
+        if (treap->right) push(treap->right);
+        
+        treap->size = 1 + size(treap->left) + size(treap->right);
+        treap->seg = (seg(treap->left) + T(treap->val)) + seg(treap->right);
+    }
+
+    static void split(Node *treap, Node *&left, Node *&right, int val) {
+        push(treap);
+
+        if (!treap) {
+            left = right = NULL;
+            return;
+        }
+     
+        if (size(treap->left) < val) {
+            split(treap->right, treap->right, right, val - size(treap->left) - 1);
+            left = treap;
+     
+        } else {
+            split(treap->left, left, treap->left, val);
+            right = treap;
+     
+        }
+        pull(treap);
+    }
+     
+    static void merge(Node *&treap, Node *left, Node *right) {
+        push(left);
+        push(right);    
+
+        if (left == NULL) {
+            treap = right;
+            return;
+        }
+     
+        if (right == NULL) {
+            treap = left;
+            return;
+        }
+
+        
+        if (left->weight < right->weight) {
+            merge(left->right, left->right, right);
+            treap = left;
+        } else {
+            merge(right->left, left, right->left);
+            treap = right;
+        }
+     
+        pull(treap);
+    }
+};

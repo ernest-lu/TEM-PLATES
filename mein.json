@@ -96,7 +96,7 @@
             "id": "basic-implicit-treap"
       },
       {
-            "id": "range-sum-reverse-treap"
+            "id": "lazy-treap"
       },
       {
             "id": "arena-allocated-order-treap"
