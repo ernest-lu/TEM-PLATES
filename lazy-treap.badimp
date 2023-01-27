@@ -1,4 +1,16 @@
 template<typename T, typename LazyOp=int>
+struct Node {
+    //always push before u visit a node
+    int val;
+    int weight, size;
+    Node *left, *right;
+    LazyOp lazy;
+    T seg;
+    Node(int c) : val(c), seg(T(c)), weight(rand()), size(1), left(NULL), right(NULL), lazy(LazyOp{}) {} 
+};
+
+
+template<typename T, typename LazyOp=int>
 struct Treap {
     using Node = Node<T,LazyOp>;
 
@@ -35,7 +47,7 @@ struct Treap {
         //MUST DO THIS:
         if (treap->left) push(treap->left);
         if (treap->right) push(treap->right);
-        
+
         treap->size = 1 + size(treap->left) + size(treap->right);
         treap->seg = (seg(treap->left) + T(treap->val)) + seg(treap->right);
     }
