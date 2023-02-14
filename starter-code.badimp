@@ -7,12 +7,12 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cout
 #ifdef LOCAL
 #define debug(...) cout << "(" << #__VA_ARGS__ << "):", dbg_out(__VA_ARGS__)
 #else
-#define debug(...) "BRUHINT"
+#define debug(...) "zzz"
 #endif
 
-using LL = long long;
-using LD = long double;
-using pii = pair<LL,LL>;
+using ll = long long;
+using ld = long double;
+using pii = pair<ll,ll>;
 
 #define FOR(i, n) for(int i = 1; i<=n; i++)
 #define F0R(i, n) for(int i = 0; i<n; i++)
@@ -36,7 +36,7 @@ template<typename T> typename enable_if<is_iterable<T>::value&&!is_same<T, strin
 }
 
 //var 
-LL T;
+ll T;
 
 void solve() {
 	
@@ -54,5 +54,4 @@ int main() {
 	cout.flush();
 	return 0;
 }
-
 
