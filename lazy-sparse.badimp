@@ -14,7 +14,7 @@ struct lazy_seg {
 	Merge merge;
 	int nxt = 0;
 
-	lazy_seg(LL n) : n(n), merge(Merge()), nxt(0) {
+	lazy_seg(ll n) : n(n), merge(Merge()), nxt(0) {
 		debug(n);
 		int c = this->nxt++;
 		a[c].dat = T(0);

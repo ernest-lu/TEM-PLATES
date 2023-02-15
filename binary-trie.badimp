@@ -27,18 +27,18 @@ struct binary_trie {
 		return c;
 	}
  
-	void insert_word(int z, LL word) {
+	void insert_word(int z, ll word) {
 		int cur = z;
 		for (int b = B - 1; b >= 0; b--) 
 			cur = get_or_create_child(cur, (word >> b) & 1);	
 	}
  
-	LL max_xor(int z, LL comp) {
+	ll max_xor(int z, ll comp) {
 		int cur = z;
-		LL ret = 0;
+		ll ret = 0;
 		for (int b = B - 1; b >= 0; b--) {
 			int l = a[cur].c[0], r = a[cur].c[1];
-			LL h = (1LL << b), has = (comp >> b) & 1;
+			ll h = (1LL << b), has = (comp >> b) & 1;
 			if (l == -1) {
 				ret |= (has ? 0 : h);
 				cur = r;

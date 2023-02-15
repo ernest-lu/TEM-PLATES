@@ -1,20 +1,20 @@
 struct DSU{
-	LL mxn;
-	vector<LL> par, sz;
+	ll mxn;
+	vector<ll> par, sz;
 
-	DSU(LL ini){
+	DSU(ll ini){
 		mxn = ini;
 		par.assign(ini + 5, 0);
 		sz.assign(ini + 5, 1);
 		FOR(i, mxn) par[i] = i;
 	}
 
-	LL fnd(LL g){
+	ll fnd(ll g){
 		if(g == par[g]) return g;
  		return par[g] = fnd(par[g]);
 	}
 
-	void uni(LL a, LL b){
+	void uni(ll a, ll b){
 		a = fnd(a), b = fnd(b);
 		if(a == b) return;
 

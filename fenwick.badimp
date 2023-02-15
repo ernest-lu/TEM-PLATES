@@ -1,34 +1,34 @@
 template<typename T>
 struct fen {
 	vector<T> tr;
-	LL mxn;
+	ll mxn;
 
-	fen(LL sz) {
+	fen(ll sz) {
 		mxn = sz;
 		tr.assign(sz + 5, 0);
 	}
 
-	void upd(LL g, T k) {
+	void upd(ll g, T k) {
 		assert(g != 0);
 		for (; g <= mxn; g += g&-g)
 			tr[g] += k;
 	}
 
-	T ge(LL g) {
+	T ge(ll g) {
 		T res = 0;
 		for (; g; g -= g&-g)
 			res += tr[g];
 		return res;
 	}
 
-	T rng(LL l, LL r) { return ge(r) - ge(l - 1); }
+	T rng(ll l, ll r) { return ge(r) - ge(l - 1); }
 
 	//maxi and mini only work with positive numbers
-	LL maxi(T k) {
+	ll maxi(T k) {
 		//max i such that ge(i) <= k.
 		//log(n) vs log^2(n) binary search
-		T running = 0; LL res = 0;
-		LL lg = 32 - __builtin_clz(mxn);
+		T running = 0; ll res = 0;
+		ll lg = 32 - __builtin_clz(mxn);
 
 		for (int i = lg; i>=0; i--) {
 			if (res + (1LL << i) > mxn) continue;
@@ -40,10 +40,10 @@ struct fen {
 		return res;
 	}
 
-	LL mini(T k) {
+	ll mini(T k) {
 		//kth order statistic
-		T running = 0; LL res = 0;
-		LL lg = 32 - __builtin_clz(mxn);
+		T running = 0; ll res = 0;
+		ll lg = 32 - __builtin_clz(mxn);
 
 		for (int i = lg; i>=0; i--) {
 			if (res + (1LL << i) > mxn) continue;

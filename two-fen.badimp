@@ -1,39 +1,39 @@
 struct twoFen{
 	//fast logn range update incremenet, range query sum
-	vector<LL> tr1, tr2;
-	LL mxn;
+	vector<ll> tr1, tr2;
+	ll mxn;
 
-	twoFen(LL sz){
+	twoFen(ll sz){
 		mxn = sz;
 		tr1.assign(sz + 5, 0);
 		tr2.assign(sz + 5, 0);
 	}
 
-	void upd1(LL g, LL k){
+	void upd1(ll g, ll k){
 		for(; g <= mxn; g += g&-g)
 			tr1[g] += k;
 	}
 
-	void upd2(LL g, LL k){
+	void upd2(ll g, ll k){
 		for(; g <= mxn; g += g&-g)
 			tr2[g] += k;
 	}
 
-	LL ge1(LL g){
-		LL res = 0;
+	ll ge1(ll g){
+		ll res = 0;
 		for(; g; g -= g&-g)
 			res += tr1[g];
 		return res;
 	}
 
-	LL ge2(LL g){
-		LL res = 0;
+	ll ge2(ll g){
+		ll res = 0;
 		for(; g; g -= g&-g)
 			res += tr2[g];
 		return res;
 	}
 
-	LL upd(LL l, LL r, LL k){
+	ll upd(ll l, ll r, ll k){
 		upd1(l, k);
 		upd1(r + 1, -k);
 
@@ -41,6 +41,6 @@ struct twoFen{
 		upd2(r + 1, (r) * k);
 	}
 
-	LL pfix(LL g){return g * ge1(g) + ge2(g);}
-	LL rng(LL l, LL r){return pfix(r) - pfix(l - 1);}
+	ll pfix(ll g){return g * ge1(g) + ge2(g);}
+	ll rng(ll l, ll r){return pfix(r) - pfix(l - 1);}
 };

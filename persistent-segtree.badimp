@@ -14,7 +14,7 @@ struct node {
 template<class T>
 struct sex {
  
-	LL nVal = 0;
+	ll nVal = 0;
  
 	node<T>* build(vector<T>& a, int zl, int zr) {
 		if (zl == zr) return new node<T>(a[zl]);

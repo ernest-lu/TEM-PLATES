@@ -1,10 +1,10 @@
 struct XOR_Basis {
-	vector<LL> basis;
+	vector<ll> basis;
 	int D, SZ = 0;
 
 	XOR_Basis(int D) : basis(D, 0LL), D(D), SZ(0) {}
 
-	bool add_elem(LL x) {
+	bool add_elem(ll x) {
 		for (int i = D - 1; i >= 0; i--) if ((x >> i) & 1LL) {
 			if (basis[i]) {
 				//Row Reduction
@@ -18,9 +18,9 @@ struct XOR_Basis {
 		return false;
 	}
 
-	LL kth(LL k) {
+	ll kth(ll k) {
 		//zero indexed k = [0 ... 2^sz - 1]
-		LL ans = 0, curb = SZ - 1;
+		ll ans = 0, curb = SZ - 1;
 		for (int i = D - 1; i >= 0; i--) if (basis[i]) {
 			if (((ans >> i) & 1LL) == (((k >> curb) & 1LL) ^ 1)) {
 				ans ^= basis[i];
