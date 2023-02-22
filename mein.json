@@ -100,5 +100,8 @@
       },
       {
             "id": "arena-allocated-order-treap"
+      },
+      {
+            "id": "dsu-rollback"
       }
 ]

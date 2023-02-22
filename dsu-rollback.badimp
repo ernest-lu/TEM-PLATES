@@ -1,0 +1,45 @@
+struct dsu_rollback {
+	int n;
+	vector<int> par, sz;
+	vector<int> stack;
+
+	dsu_rollback() : dsu_rollback(0) {}
+
+	dsu_rollback(int n) : n(n), par(n, 0), sz(n, 1) {
+		iota(all(par), 0);
+	};
+
+	int find(int a) {
+		while (a != par[a]) a = par[a];
+		return a;
+	}
+
+	void onion(int a, int b) {
+		a = find(a), b = find(b);
+		if (a == b) {
+			stack.push_back(-1);
+			return;
+		}
+
+		if (sz[a] < sz[b]) swap(a, b);
+		par[b] = a;
+		sz[a] += sz[b];
+		stack.push_back(b);
+	}
+
+	void rollback(int num_edges) {
+		while ((int)stack.size() > num_edges) {
+			auto g = stack.back();
+			stack.pop_back();
+
+			if (g != -1) {
+				sz[par[g]] -= sz[g];
+				par[g] = g;
+			}
+		}
+	}
+
+	int size_of(int node) {
+		return sz[node];
+	}
+};
