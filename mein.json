@@ -103,5 +103,8 @@
       },
       {
             "id": "dsu-rollback"
+      },
+      {
+            "id": "dynamic-connectivity-offline"
       }
 ]

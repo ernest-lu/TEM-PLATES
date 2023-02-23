@@ -1,0 +1,90 @@
+struct dsu {
+	int n;
+	vector<int> par, sz;
+	vector<int> stack;
+	int num_comps;
+
+	dsu(int n) : n(n), par(n), sz(n, 1), num_comps(n) {
+		iota(all(par), 0);
+	}
+
+	dsu() : dsu(0) {}
+
+	int find(int a) {
+		while (a != par[a]) a = par[a];
+		return a;
+	}
+
+	bool onion(int a, int b) {
+		a = find(a), b = find(b);
+		if (a == b) {
+			stack.pb(-1);
+			return false;
+		}
+
+		if (sz[a] > sz[b]) swap(a, b);
+		stack.pb(a);
+		par[a] = b;
+		sz[b] += sz[a];
+		num_comps -= 1;
+		return true;
+	}
+
+	void rollback() {
+		assert(!stack.empty());
+		auto g = stack.back();
+		stack.pop_back();
+		if (g != -1) {
+			sz[par[g]] -= sz[g];
+			par[g] = g;
+			num_comps += 1;
+		}
+	}
+};
+
+template<typename query = pair<int, int>>
+struct query_tree {
+	int q;
+	vector<vector<query>> t;
+	dsu ds;
+
+	query_tree(int q, int n) : q(q), t(4 * q + 5), ds(n) {}
+
+	void add(int z, int l, int r, int ql, int qr, const query& to_add) {
+		if (ql > qr) return;
+		if (ql == l and qr == r) {
+			t[z].pb(to_add);
+			return;
+		}
+		int m = (l + r) >> 1;
+		add(2 * z, l, m, ql, min(qr, m), to_add);
+		add(2 * z + 1, m + 1, r, max(ql, m + 1), qr, to_add);
+	}
+
+	void add(int l, int r, const query& to_add) {
+		return add(1, 0, q - 1, l, r, to_add);
+	}
+
+	vector<ll> solve(const vector<bool>& a) {
+		vector<ll> ans(q, -1);
+		auto dfs = [&](auto dfs, int z, int l, int r) -> void {
+			for (auto [x, y] : t[z]) {
+				ds.onion(x, y);
+			}
+
+			if (l == r) {
+				if (a[l]) ans[l] = ds.num_comps;
+			} else {
+				int m = (l + r) >> 1;
+				dfs(dfs, 2 * z, l, m);
+				dfs(dfs, 2 * z + 1, m + 1, r);
+			}
+
+			for (auto [x, y] : t[z]) {
+				ds.rollback();
+			}
+		};
+		dfs(dfs, 1, 0, q - 1);
+		return ans;
+	}
+};
