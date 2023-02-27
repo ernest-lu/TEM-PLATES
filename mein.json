@@ -106,5 +106,8 @@
       },
       {
             "id": "dynamic-connectivity-offline"
+      }, 
+      {
+            "id": "poly-compress"
       }
 ]
