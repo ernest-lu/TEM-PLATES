@@ -1,0 +1,17 @@
+vector<int> kmp(const string& a) {
+	int n = (int)a.size();
+	vector<int> pi(n);
+	for (int i = 1; i < n; i++) {
+		int j = pi[i - 1];
+		while (true) {
+			if (a[j] == a[i]) {
+				pi[i] = j + 1;
+				break;
+			}
+			if (j == 0) break;
+			j = pi[j - 1];
+		}
+	}
+
+	return pi;
+}
