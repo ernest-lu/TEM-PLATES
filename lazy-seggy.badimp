@@ -3,16 +3,15 @@ struct lazy_seg {
 	int n;
 	vector<T> tr;
 	vector<LazyOp> lazy_inc;
-	vector<bool> tag_inc;
 	Merge merge;
 	
 	void pull(int z) {
 		tr[z] = merge(tr[2 * z], tr[2 * z + 1]);
 	};
 	
-	lazy_seg(int n) : n(n), tr(4 * n + 5), lazy_inc(4 * n + 5), tag_inc(4 * n + 5), merge(Merge()) {}
+	lazy_seg(int n) : n(n), tr(4 * n + 5), lazy_inc(4 * n + 5), merge(Merge()) {}
 	
-	lazy_seg(vector<ll> a) : lazy_seg((int)a.size()) {
+	lazy_seg(const vector<T>& a) : lazy_seg((int)a.size()) {
 		function<void (int, int, int)> build = [&](int z, int l, int r) {
 			if (l == r) {
 				tr[z] = T(a[l]);
@@ -28,14 +27,10 @@ struct lazy_seg {
 	
 	
 	void push(int z, int l, int r) {
-		if (tag_inc[z]) {
-			tr[z].apply(lazy_inc[z]);
-			if (l < r) F0R (i, 2) {				
-				lazy_inc[2 * z + i] += lazy_inc[z];
-				tag_inc[2 * z + i] = true;
-			}
+		tr[z] += lazy_inc[z];
+		if (l < r) F0R (i, 2) {				
+			lazy_inc[2 * z + i] += lazy_inc[z];
 		}
-		tag_inc[z] = false;
 		lazy_inc[z] = 0LL;
 	}
 	
@@ -44,7 +39,6 @@ struct lazy_seg {
         if (ql > qr) return;     		
 		if (ql == l && qr == r) {
 			lazy_inc[z] += val;
-			tag_inc[z] = true;
 			push(z, l, r); 
 			return;
 		} 
@@ -56,7 +50,7 @@ struct lazy_seg {
 
 	T query(int z, int l, int r, int ql, int qr) {
 		push(z, l, r);
-        if (ql > qr) return T(0);
+        if (ql > qr) return T{};
 		if (ql == l && qr == r) {
 			return tr[z];
 		}

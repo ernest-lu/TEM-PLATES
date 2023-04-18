@@ -3,9 +3,9 @@ struct seg {
 	int n;
 	vector<T> tr;
 	Merge merge;
-	seg(int n) : n(n), merge(Merge()), tr((n << 2) + 5, T(0)) {};
+	seg(int n) : n(n), merge(Merge()), tr((n << 2) + 5, T{}) {};
 	
-	seg(vector<T> a) : seg((int)a.size()) {
+	seg(const vector<T>& a) : seg((int)a.size()) {
 		function<void (int, int, int)> build = [&](int z, int l, int r) {
 			if (l == r) {
 				tr[z] = a[l];
@@ -20,7 +20,7 @@ struct seg {
 		build(1, 0, n - 1);
 	}
 	
-	void upd(int z, int l, int r, int qg, T val) {
+	void upd(int z, int l, int r, int qg, const T& val) {
 		if (qg == l && qg == r) {
 			tr[z] = val;
 			return;
@@ -47,6 +47,6 @@ struct seg {
 					 query(2 * z + 1, mid + 1, r, max(ql, mid + 1), qr));
 	};
 	
-	void upd(int g, T val) { upd(1, 0, n - 1, g, val); }
+	void upd(int g, const T& val) { upd(1, 0, n - 1, g, val); }
 	T query(int l, int r) { return query(1, 0, n - 1, l, r); }
 };
