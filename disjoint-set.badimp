@@ -1,24 +1,24 @@
-struct DSU{
-	ll mxn;
+struct DSU {
+	ll n;
 	vector<ll> par, sz;
 
-	DSU(ll ini){
-		mxn = ini;
-		par.assign(ini + 5, 0);
-		sz.assign(ini + 5, 1);
-		FOR(i, mxn) par[i] = i;
+	DSU(ll n) : n(n), par(n), sz(n, 1) {
+		iota(all(par), 0);
 	}
 
-	ll fnd(ll g){
-		if(g == par[g]) return g;
- 		return par[g] = fnd(par[g]);
+	ll fnd(ll g) {
+		if (g == par[g]) return g;
+		return par[g] = fnd(par[g]);
 	}
 
-	void uni(ll a, ll b){
+	bool onion(ll a, ll b) {
 		a = fnd(a), b = fnd(b);
-		if(a == b) return;
-
-		if(sz[a] <= sz[b]) swap(a, b); // a bigger
-		par[b] = a; sz[a] += sz[b];
+		if (a == b) {
+			return false;
+		}
+		if (sz[a] > sz[b]) swap(a, b);
+		sz[b] += sz[a];
+		par[a] = b;
+		return true;
 	}
 };
