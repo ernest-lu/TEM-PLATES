@@ -115,5 +115,8 @@
       },
       {
             "id": "kmp"
+      }, 
+      {
+            "id": "convex-hull-graham-scan"
       }
 ]
