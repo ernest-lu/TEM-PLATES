@@ -38,7 +38,7 @@ struct lazy_seg {
 		if (l < r) F0R (i, 2) {				
 			lazy_inc[2 * z + i] += lazy_inc[z];
 		}
-		lazy_inc[z] = 0LL;
+		lazy_inc[z] = LazyOp{};
 	}
 	
 	void up_inc(int z, int l, int r, int ql, int qr, const LazyOp& val) {
