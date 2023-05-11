@@ -118,5 +118,8 @@
       }, 
       {
             "id": "convex-hull-graham-scan"
+      }, 
+      {
+            "id": "historic-information"
       }
 ]
