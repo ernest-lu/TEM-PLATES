@@ -1,0 +1,64 @@
+// monoid and semigroup for historic information
+// historic information of range_assign, range_sum of history
+
+struct Lazy {
+	// historic sum from assignements
+	// maintain as piecewise functions
+	bool tag;
+	ll start_x, end_x;
+	ll sum_of_stuff;
+	ll end_ass;
+
+	Lazy() : tag(false), start_x(0), end_x(0), sum_of_stuff(0), end_ass(0) {}
+	Lazy(ll x, ll ass) : tag(true), start_x(x), end_x(x), sum_of_stuff(0), end_ass(ass) {}
+
+	Lazy& operator+=(const Lazy& o) {
+		if (o.tag) {
+			if (this->tag == false) {
+				*this = o;
+			} else {
+				assert(o.start_x >= this->end_x);	
+				this->sum_of_stuff += (o.start_x - this->end_x) * this->end_ass;
+				this->sum_of_stuff += o.sum_of_stuff;
+				this->end_x = o.end_x;
+				this->end_ass = o.end_ass;
+			}
+		}
+		return *this;
+	};
+};
+
+struct Info {
+	ll x, y;
+	ll slope;
+	ll sz;
+
+	Info() : x(0), y(0), slope(0), sz(0) {}
+	Info(ll x, ll y, ll slope) : x(x), y(y), slope(slope), sz(1) {}
+	Info(ll i) : x(0), y(0), slope(0), sz(1) {}
+
+	friend Info operator+(const Info& a, const Info& b) {
+		Info ret;	
+		ret.x = max(a.x, b.x);
+		ret.y = a.y + b.y + (ret.x - a.x) * a.slope + (ret.x - b.x) * b.slope;
+		ret.slope = a.slope + b.slope;
+		ret.sz = a.sz + b.sz;
+		return ret;
+	}
+
+	ll eval(ll x) {
+		assert(x >= this->x);
+		debug(x, this->x, this->sz);
+		return this->y + (x - this->x) * this->slope;
+	}
+
+	Info& operator+=(const Lazy& o) {
+		if (o.tag) {
+			this->y += this->slope * (o.start_x - this->x);
+			this->y += o.sum_of_stuff * this->sz;
+			this->x = o.end_x;
+			this->slope = o.end_ass * this->sz;
+		}
+		return *this;
+	}
+};
