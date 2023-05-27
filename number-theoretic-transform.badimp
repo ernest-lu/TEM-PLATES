@@ -80,7 +80,7 @@ namespace NTT {
 		for (int i = 0; i < a.size(); i++)
 			res.push_back((a[i] * b[i]));
 		res = dft(res, 1);
-		while (res.back() == 0) res.pop_back();
+		while (!res.empty() and res.back() == 0) res.pop_back();
 		return res;
 	}
 }
