@@ -120,6 +120,9 @@
             "id": "convex-hull-graham-scan"
       }, 
       {
+            "id": "lower-upper-hull"
+      },
+      {
             "id": "historic-information"
       }, 
       {
@@ -127,5 +130,5 @@
       }, 
       {
             "id": "debug"
-      }
+      } 
 ]
