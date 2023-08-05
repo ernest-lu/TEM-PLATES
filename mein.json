@@ -127,7 +127,10 @@
       }, 
       {
             "id": "neal-ntt"
-      }, 
+      },
+      {
+            "id": "neal-bitset"
+      },
       {
             "id": "debug"
       } 
