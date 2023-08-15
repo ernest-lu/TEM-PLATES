@@ -39,7 +39,7 @@ struct lazy_seg {
 			debug(z, a[z].dat.mx, a[z].dat.delta);
 			if (l < r) {
 				create_children(z);
-				F0R (i, 2) {				
+				for (int i = 0; i < 2; i++) {				
 					int nz = a[z].c[i];
 					a[nz].lazy = a[z].lazy;
 					a[nz].tag = true;

@@ -5,8 +5,6 @@ typedef long double LD;
 typedef pair<LL,LL> pii;
 typedef pair<LL,pii> ppi;
 typedef pair<pii,pii> ppp;
-#define FOR(i, n) for(int i = 1; i<=n; i++)
-#define F0R(i, n) for(int i = 0; i<n; i++)
 #define mp make_pair
 #define pb push_back
 #define f first

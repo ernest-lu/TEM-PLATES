@@ -4,10 +4,10 @@ template<class T, int SZ> struct LazySeg {
 	static_assert(__builtin_popcount(SZ) == 1); // SZ must be power of 2
 	const T ID{}; T cmb(T a, T b) { return a+b; }
 	T seg[2*SZ], lazy[2*SZ]; 
-	LazySeg() { F0R(i,2*SZ) seg[i] = lazy[i] = ID; }
+	LazySeg() { for (int i = 0; i < 2 * SZ; i++) seg[i] = lazy[i] = ID; }
 	void push(int ind, int L, int R) { /// modify values for current node
 		seg[ind] += (R-L+1)*lazy[ind]; // dependent on operation
-		if (L != R) F0R(i,2) lazy[2*ind+i] += lazy[ind]; /// prop to children
+		if (L != R) for (int i = 0; i < 2; i++) lazy[2*ind+i] += lazy[ind]; /// prop to children
 		lazy[ind] = 0; 
 	} // recalc values for current node
 	void pull(int ind){seg[ind]=cmb(seg[2*ind],seg[2*ind+1]);}

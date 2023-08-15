@@ -35,7 +35,7 @@ struct lazy_seg {
 	
 	void push(int z, int l, int r) {
 		tr[z] += lazy_inc[z];
-		if (l < r) F0R (i, 2) {				
+		if (l < r) for (int i = 0; i < 2; i++) {				
 			lazy_inc[2 * z + i] += lazy_inc[z];
 		}
 		lazy_inc[z] = LazyOp{};

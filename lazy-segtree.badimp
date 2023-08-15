@@ -32,13 +32,13 @@ struct lazy_seg{
 	void push(int z, int l, int r) {
 		if (tag_ass[z]) {
 			tr[z] = f(l, r) * lazy_ass[z];
-             if (l < r) F0R (i, 2) {
+             if (l < r) for (int i = 0; i < 2; i++) {
              	  lazy_ass[2 * z + i] = lazy_ass[z];
              	  tag_ass[2 * z + i] = true;
              }
 		} else if (tag_inc[z]) {
 			tr[z] += f(l, r) * lazy_inc[z];
-			if (l < r) F0R (i, 2) {
+			if (l < r) for (int i = 0; i < 2; i++) {
 				if (tag_ass[2 * z + i]) {
 					lazy_ass[2 * z + i] += lazy_inc[z];
 				} else {					

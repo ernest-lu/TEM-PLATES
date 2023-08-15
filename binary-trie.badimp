@@ -15,7 +15,7 @@ struct binary_trie {
 			c = nxt++;
 			a[z].c[val] = c;
 			a[c].val = val;
-			F0R (i, ALPHABET) a[c].c[i] = -1;
+			for (int i = 0; i < ALPHABET; i++) a[c].c[i] = -1;
 		}
 		return c;
 	};
@@ -23,7 +23,7 @@ struct binary_trie {
 	int create_root() {
 		int c = nxt++;
 		a[c].val = 0;
-		F0R (i, ALPHABET) a[c].c[i] = -1;
+		for (int i = 0; i < ALPHABET; i++) a[c].c[i] = -1;
 		return c;
 	}
  
