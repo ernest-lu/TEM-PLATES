@@ -1,0 +1,56 @@
+template <typename T, enable_if_t<is_unsigned_v<T>> * = nullptr>
+constexpr int bit_width(T x) noexcept {
+  if (x == 0)
+    return 0;
+  else
+    return sizeof(unsigned long long) * CHAR_BIT - __builtin_clzll(x);
+};
+
+template <typename T, enable_if_t<is_unsigned_v<T>> * = nullptr>
+constexpr bool has_single_bit(T x) noexcept {
+  if (x == 0)
+    return false;
+  else
+    return (x & (x - 1)) == 0;
+};
+
+template <typename T, enable_if_t<is_unsigned_v<T>> * = nullptr>
+constexpr int popcount(T x) noexcept {
+  return __builtin_popcountll(x);
+};
+
+int check_pow2_and_log(size_t x) {
+  assert(has_single_bit(x));
+  return bit_width(x) - 1;
+}
+
+enum struct TransformDirection { NORMAL, INVERSE };
+
+template <typename T, TransformDirection Dir = TransformDirection::NORMAL>
+void hadamard_transform(vector<T> &a) {
+  int w = check_pow2_and_log(a.size());
+  size_t n = a.size();
+  for (int b = 0; b < w; b++) {
+    size_t l = size_t(1) << b;
+    for (size_t i = 0; i < n; i += l * 2)
+      for (size_t j = i; j < i + l; j++) {
+        T tmp = a[j];
+        a[j] += a[j + l];
+        a[j + l] = tmp - a[j + l];
+      }
+  }
+  if (Dir == TransformDirection::INVERSE) {
+    T inv_size = T(1) / n;
+    for (size_t i = 0; i < n; i++)
+      a[i] *= inv_size;
+  }
+}
+
+template <typename T> void xor_convolution(vector<T> &a, vector<T> &b) {
+  assert(a.size() == b.size());
+  hadamard_transform(a);
+  hadamard_transform(b);
+  for (size_t i = 0; i < a.size(); i++)
+    a[i] *= b[i];
+  hadamard_transform<T, TransformDirection::INVERSE>(a);
+}
