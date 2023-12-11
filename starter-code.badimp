@@ -1,18 +1,20 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-void dbg_out() { cout << endl; }
-template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cout << ' ' << H; dbg_out(T...); }
+// clang-format off
+template <typename T, typename = void> struct is_iterable : false_type {};template <typename T>struct is_iterable<    T, void_t<decltype(begin(declval<T>())), decltype(end(declval<T>()))>>    : true_type {};template <typename T>typename enable_if<is_iterable<T>::value && !is_same<T, string>::value,ostream &>::type operator<<(ostream &cout, T const &v);template <typename A, typename B>ostream &operator<<(ostream &cout, pair<A, B> const &p) {  return cout << "(" << p.first << ", " << p.second << ")";}template <typename T>typename enable_if<is_iterable<T>::value && !is_same<T, string>::value, ostream &>::type operator<<(ostream &cout, T const &v) {  cout << "[";  for (auto it = v.begin(); it != v.end();) {cout << *it; if (++it != v.end()) cout << ", ";  } return cout << "]";}
 
 #ifdef LOCAL
-#define debug(...) cout << "(" << #__VA_ARGS__ << "):", dbg_out(__VA_ARGS__)
+  void dbg_out() { cout << endl; } template <typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cout << ' ' << H; dbg_out(T...); }
+  #define debug(...) cout << "(" << #__VA_ARGS__ << "):", dbg_out(__VA_ARGS__)
 #else
-#define debug(...) "zzz"
+  #define debug(...) "zzz"
 #endif
+// clang-format on
 
 using ll = long long;
 using ld = long double;
-using pii = pair<ll,ll>;
+using pii = pair<ll, ll>;
 
 #define all(x) x.begin(), x.end()
 #define mp make_pair
@@ -20,36 +22,19 @@ using pii = pair<ll,ll>;
 #define f first
 #define s second
 
-template<typename T, typename = void> struct is_iterable : false_type {};
-template<typename T> struct is_iterable<T, void_t<decltype(begin(declval<T>())),decltype(end(declval<T>()))>> : true_type {};
-template<typename T> typename enable_if<is_iterable<T>::value&&!is_same<T, string>::value,ostream&>::type operator<<(ostream &cout, T const &v);
-template<typename A, typename B> ostream& operator<<(ostream &cout, pair<A, B> const &p) { return cout << "(" << p.f << ", " << p.s << ")"; }
-template<typename T> typename enable_if<is_iterable<T>::value&&!is_same<T, string>::value,ostream&>::type operator<<(ostream &cout, T const &v) {
-	cout << "["; 
-	for (auto it = v.begin(); it != v.end();) {
-		cout << *it;
-		if (++it != v.end()) cout << ", ";
-	}
-	return cout << "]";
-}
-
-//var 
-ll T;
-
 void solve() {
-	
+  // open
 }
 
 int main() {
-	ios_base::sync_with_stdio(0); 
-	cin.tie(0);
+  cin.tie(0)->sync_with_stdio(false);
 
-	T = 1;
-	//cin >> T;
-	for (int t = 0; t < T; t++)	
-		solve();
+  ll T = 1;
+  // cin >> T;
+  for (int t = 0; t < T; t++)
+    solve();
 
-	cout.flush();
-	return 0;
+  cout.flush();
+  return 0;
 }
 
