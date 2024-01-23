@@ -1,17 +1,18 @@
-// Supports flow with lower bounds too
-struct Dinic
+struct Maxflow
 {
     struct Edge
     {
         int to, cap, flow, rev;
     };
+    static constexpr int INF = 1e9;
+    static constexpr int MAXN = 2005;
     vector<Edge> G[MAXN];
     int cur[MAXN], dis[MAXN], cnt[MAXN], n, s, t;
     int dfs(int u, int cap)
     {
         if (!cap || u == t)
             return cap;
-        for (int &i = cur[u]; i < SZ(G[u]);)
+        for (int &i = cur[u]; i < (int)G[u].size();)
         {
             auto &e = G[u][i++];
             if (dis[e.to] == dis[u] + 1 && e.cap != e.flow)
@@ -63,14 +64,14 @@ struct Dinic
     }
     void add_edge(int u, int v, int cap)
     {
-        G[u].pb(Edge{v, cap, 0, SZ(G[v])});
-        G[v].pb(Edge{u, 0, 0, SZ(G[v]) - 1});
+        G[u].pb(Edge{v, cap, 0, (int)G[v].size()});
+        G[v].pb(Edge{u, 0, 0, (int)G[v].size() - 1});
     }
     void add_edge(int u, int v, int lcap, int rcap)
     {
         cnt[u] -= lcap, cnt[v] += lcap;
-        G[u].pb(Edge{v, rcap, lcap, SZ(G[v])});
-        G[v].pb(Edge{u, 0, 0, SZ(G[u]) - 1});
+        G[u].pb(Edge{v, rcap, lcap, (int)G[v].size()});
+        G[v].pb(Edge{u, 0, 0, (int)G[u].size() - 1});
     }
     bool solve()
     {
@@ -97,4 +98,4 @@ struct Dinic
         int x = G[_t].back().flow;
         return G[_t].pop_back(), G[_s].pop_back(), x;
     }
-};
+} dinic;
