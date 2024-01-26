@@ -142,5 +142,8 @@
       }, 
       {
             "id": "dinic"
+      },
+      {
+            "id": "lcp-array"
       }
 ]
