@@ -2,7 +2,7 @@
       {
             "id": "fenwick"
       },
-      {    
+      {
             "id": "iterative-segtree"
       },
       {
@@ -54,10 +54,10 @@
             "id": "random"
       },
       {
-		"id": "segtree-recusrive"
+            "id": "segtree-recusrive"
       },
       {
-	      "id": "LCA"
+            "id": "LCA"
       },
       {
             "id": "RMQ"
@@ -106,7 +106,7 @@
       },
       {
             "id": "dynamic-connectivity-offline"
-      }, 
+      },
       {
             "id": "poly-compress"
       },
@@ -115,16 +115,16 @@
       },
       {
             "id": "kmp"
-      }, 
+      },
       {
             "id": "convex-hull-graham-scan"
-      }, 
+      },
       {
             "id": "lower-upper-hull"
       },
       {
             "id": "historic-information"
-      }, 
+      },
       {
             "id": "neal-ntt"
       },
@@ -139,11 +139,14 @@
       },
       {
             "id": "xor-convolution"
-      }, 
+      },
       {
             "id": "dinic"
       },
       {
             "id": "lcp-array"
+      },
+      {
+            "id": "aho-corasick"
       }
 ]
