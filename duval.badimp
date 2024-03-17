@@ -1,3 +1,5 @@
+// Duval algorithm for Lyndon factorization of string
+// Returns Lyndon words w1 >= w2 >= ... >= wn such that s = w1 + w2 + ... + wn
 vector<string> duval(string const &s) {
   int n = s.size();
   int i = 0;
