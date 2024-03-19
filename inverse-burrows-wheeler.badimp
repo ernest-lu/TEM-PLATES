@@ -1,0 +1,13 @@
+// inverse burrow-wheelers transform
+// inverse_bw("cb#ab") = "babc"
+string inverse_bw(const string &t) {
+  vector<int> nex((int)t.size());
+  iota(nex.begin(), nex.end(), 0);
+  stable_sort(all(nex), [&t](int a, int b) { return t[a] < t[b]; });
+  string ret = "";
+
+  for (int i = nex[0]; i;)
+    ret += t[i = nex[i]];
+
+  return ret;
+}

@@ -151,5 +151,8 @@
       },
       {
             "id": "duval"
+      },
+      {
+            "id": "inverse-burrows-wheeler"
       }
 ]
