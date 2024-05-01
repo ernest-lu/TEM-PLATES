@@ -1,0 +1,86 @@
+vector<int> f(n);
+
+for (auto &u : f) {
+  cin >> u;
+  u--;
+}
+
+debug(f);
+
+constexpr int B = 19;
+vector bl(B, vector<int>(n, 0));
+bl[0] = f;
+
+for (int level = 1; level <= B - 1; level++)
+  for (int i = 0; i < n; i++) {
+    bl[level][i] = bl[level - 1][bl[level - 1][i]];
+  }
+
+vector<ll> cycle_id(n, -1);
+vector<ll> idx_in_cycle(n, -1);
+vector<vector<ll>> cycles;
+cycles.reserve(n);
+
+ll cc_cycle_id = 0;
+{ // get cycles
+  vector<ll> color(n, 0);
+  for (int i = 0; i < n; i++) {
+    if (color[i] != 2) {
+      vector<ll> cycle;
+      auto dfs = [&](auto &dfs, ll g) -> void {
+        color[g] = 1;
+        ll u = f[g];
+        if (color[u] == 2) {
+          color[g] = 2;
+          return;
+        }
+        if (color[u] == 1) {
+          ll c = u;
+          cycle = {g};
+          while (c != g) {
+            cycle.pb(c);
+            c = f[c];
+          }
+          color[g] = 2;
+          return;
+        }
+        dfs(dfs, u);
+        color[g] = 2;
+        return;
+      };
+      dfs(dfs, i);
+      if (!cycle.empty()) {
+        cycles.pb(cycle);
+        for (int j = 0; j < (int)cycle.size(); j++) {
+          const auto u = cycle[j];
+          idx_in_cycle[u] = j;
+          cycle_id[u] = cc_cycle_id;
+        }
+        cc_cycle_id++;
+      }
+    }
+  }
+}
+
+auto get_depth = [&](int g) -> ll {
+  ll ans = 0;
+  for (int i = B - 1; i >= 0; i--) {
+    if (cycle_id[bl[i][g]] != -1)
+      continue;
+    ans += (1 << i);
+    g = bl[i][g];
+  }
+  return ans;
+};
+auto get_root = [&](int g) -> ll {
+  for (int i = B - 1; i >= 0; i--) {
+    if (cycle_id[bl[i][g]] != -1)
+      continue;
+    g = bl[i][g];
+  }
+  return g;
+};
+
+vector<ll> depth(n);
+for (int i = 0; i < n; i++)
+  depth[i] = get_depth(i);
