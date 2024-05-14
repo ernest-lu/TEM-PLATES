@@ -166,5 +166,8 @@
       },
       {
             "id": "neal-suffix-array"
+      },
+      {
+            "id": "dynamic-bitset"
       }
 ]

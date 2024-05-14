@@ -1,0 +1,2 @@
+#include <tr2/dynamic_bitset>
+tr2::dynamic_bitset<> bt;
