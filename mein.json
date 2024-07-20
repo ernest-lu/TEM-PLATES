@@ -169,5 +169,8 @@
       },
       {
             "id": "dynamic-bitset"
+      },
+      {
+            "id": "euler"
       }
 ]
